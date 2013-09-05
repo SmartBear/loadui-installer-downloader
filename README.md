@@ -1,4 +1,7 @@
 loadui-installer-downloader
 ===========================
 
-Used by SoapUI installer to download LoadUI installer
+About
+-----
+
+Used by the SoapUI installer to download the LoadUI installer
