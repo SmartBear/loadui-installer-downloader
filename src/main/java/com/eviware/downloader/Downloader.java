@@ -12,18 +12,12 @@
 
 package com.eviware.downloader;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.SocketAddress;
-import java.net.URL;
-import java.net.URLConnection;
+import org.xml.sax.SAXException;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.*;
+import java.net.*;
 
 /**
  * downloader
@@ -40,16 +34,23 @@ public class Downloader
 
 	private static Proxy proxy;
 
-	public static void main( String[] args )
+	private static final String VERSION_TOKEN = "version";
+
+
+	public static void main( String[] args ) throws ParserConfigurationException, SAXException, IOException
 	{
-		if( args.length < 2 )
+
+		if( args.length < 1 )
 		{
-			System.out.println( "you have to specify download url link and temporary file path!" );
+			System.out.println( "Please specify a download url link template" );
 			return;
 		}
 
 		initProxy( args );
-		boolean success = download( args[0] );
+
+		String downloadPathWithVersion = getLatestVersionPath( args[0] );
+
+		boolean success = download( downloadPathWithVersion );
 
 		if( success && shouldInstall() )
 		{
@@ -58,6 +59,12 @@ public class Downloader
 
 		removeTempFile();
 		closeWindow();
+	}
+
+	private static String getLatestVersionPath( String downloadPathTemplate ) throws IOException, ParserConfigurationException, SAXException
+	{
+		String version = new VersionDetector().getLatestVersionAvailable( proxy );
+		return downloadPathTemplate.replaceAll( VERSION_TOKEN, version ) + OS.EXTENSION;
 	}
 
 	private static boolean shouldInstall()
@@ -74,15 +81,15 @@ public class Downloader
 
 	private static void initProxy( String[] args )
 	{
-		if( args.length >= 4 )
+		if( args.length >= 2 )
 		{
-			String host = args[2];
-			String port = args[3];
+			String host = args[1];
+			String port = args[2];
 			if( host.length() == 0 || port.length() == 0 )
 			{
 				return;
 			}
-			int portNum = -1;
+			int portNum;
 			try
 			{
 				portNum = Integer.parseInt( port );
@@ -104,7 +111,7 @@ public class Downloader
 		try
 		{
 			URL url = new URL( urlLink );
-			URLConnection conn = null;
+			URLConnection conn;
 
 			if( proxy != null )
 			{
@@ -157,7 +164,7 @@ public class Downloader
 	private static void downloading( BufferedInputStream in, BufferedOutputStream fout, int size ) throws IOException
 	{
 		byte data[] = new byte[1024];
-		int count = 0;
+		int count;
 		progressBar = new ProgressBar( size );
 		while( ( count = in.read( data, 0, 1024 ) ) != -1 )
 		{

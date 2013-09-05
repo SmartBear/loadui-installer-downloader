@@ -37,10 +37,10 @@ public class ProgressBar
 	private static final String MAVEN_LOADUI_DOWNLOADER_PRO = "maven.loadui.downloader.pro";
 	private static final String LOADUI_PIC_24_BIT_PNG = "Installer_pic_loadUI_PNG.png";
 	private static final String PRO_LOADUI_PIC_24_BIT_PNG = "loadUI-pro-general_installer-pic-24-bit-PNG.png";
-	private static final String FRAME_ICON = "16-perc.gif";
-	private static final String RESOURCES = "/com/eviware/resources/";
+	private static final String FRAME_ICON = "loadui-logo-icon-16.png";
+	private static final String RESOURCES = "/";
 	private static final String FRAME_TITLE = "Setup - soapUI installer";
-	private static final String PRO_FRAME_ICON = "16-orange-perc.gif";;
+	private static final String PRO_FRAME_ICON = "loadui-logo-icon-16-pro.png";;
 	private JFrame frame;
 	private JProgressBar progressBar;
 	private boolean pro;
