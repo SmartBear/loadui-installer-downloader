@@ -1,4 +1,4 @@
-loadui-installer-downloader
+The LoadUI installer downloader
 ===========================
 
 About
