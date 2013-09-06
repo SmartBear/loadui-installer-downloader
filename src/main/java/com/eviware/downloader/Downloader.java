@@ -225,7 +225,7 @@ public class Downloader
 
 	public static void removeTempFile()
 	{
-		if( tempFile.exists() )
+		if( tempFile != null && tempFile.exists() )
 		{
 			tempFile.deleteOnExit();
 		}
