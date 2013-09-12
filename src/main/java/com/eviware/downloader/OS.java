@@ -42,7 +42,6 @@ public class OS
 		String[] commandsLinux = new String[] { "sh", file };
 		String[] commandsMac = new String[] { "hdiutil", "attach", file }; // .dmg is disk image. it needs to be mounted first
 
-		System.err.println( commandsMac[0] + "__" + commandsMac[1] + "__" + commandsMac[2] );
 		return OS.isWindows() ? commandsWin : OS.isMac() ? commandsMac : commandsLinux;
 	}
 }
